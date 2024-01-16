@@ -9,12 +9,17 @@ use Illuminate\Support\Str;
 class Project extends Model
 {
     use HasFactory;
-    protected $fillable =['user_id','title','slug','description','url','image','technologies',];
+    protected $fillable =['user_id','title','slug','description','url','image','technologies','type_id'];
 
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function type()
+    {
+        return $this->belongsTo(Type::class);
     }
 
     public static function getSlug($title)
