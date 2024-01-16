@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Project;
+use App\Models\Type;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
@@ -26,7 +27,8 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('admin.projects.create');
+        $types = Type::all();
+        return view('admin.projects.create', compact('types'));
     }
 
     /**
@@ -45,8 +47,6 @@ class ProjectController extends Controller
             $path = Storage::put('img', $formData['image']);
             $formData['image'] = $path;
         }
-        //dd($path);
-
         $project = Project::create($formData);
         return redirect()->route('admin.projects.show', $project->slug);
     }
@@ -64,7 +64,8 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        return view('admin.projects.edit', compact('project'));
+        $types = Type::all();
+        return view('admin.projects.edit', compact('project', 'types'));
     }
 
     /**
@@ -74,12 +75,13 @@ class ProjectController extends Controller
     {
 
         $formData = $request->validated();
+        $formData['slug'] = $project->slug;
         if ($project->title !== $formData['title']) {
             $slug = Project::getSlug($formData['title']);
             $formData['slug'] = $slug;
         }
-        $formData['user_id'] = $project->user_id;
 
+        $formData['user_id'] = $project->user_id;
         if ($request->hasFile('image')) {
             if ($project->image) {
                 Storage::delete($project->image);
@@ -87,7 +89,6 @@ class ProjectController extends Controller
             $path = Storage::put('img', $request->image);
             $formData['image'] = $path;
         }
-
         $project->update($formData);
         return redirect()->route('admin.projects.show', $project->slug);
     }
