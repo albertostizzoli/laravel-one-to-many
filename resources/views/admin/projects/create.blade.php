@@ -15,9 +15,24 @@
                         @enderror
                     </div>
                     <div class="mb-3">
+                        <label for="type_id">Tipo</label>
+                        <select class="form-control @error('type_id') is-invalid @enderror" name="type_id"
+                            id="type_id">
+                            <option value="">Seleziona il tipo di progetto</option>
+                            @foreach ($types as $type)
+                                <option value="{{ $type->id }}"
+                                    {{ old('type_id') == $type->id ? 'selected' : '' }}>{{ $type->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('type_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mb-3">
                         <label for="description">Descrizione</label>
                         <textarea type="text" class="form-control @error('description') is-invalid @enderror" name="description"
-                            id="description" required maxlength="200" minlength="3">
+                            id="description" required cols="30" rows="10">
                     {{ old('description') }}
                 </textarea>
                         @error('description')
@@ -42,7 +57,7 @@
                     </div>
                     <div class="mb-3">
                         <div class="mb-2">
-                            <img class="w-25" id="image-preview" src="https://via.placeholder.com/300"
+                            <img width="100" id="image-preview" src="https://via.placeholder.com/300"
                                 alt="image-preview">
                         </div>
                         <label for="image">Immagine</label>

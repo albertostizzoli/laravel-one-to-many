@@ -5,6 +5,7 @@
             <div class="col-12">
                 <h1>{{ $project->title }}</h1>
                 <p>{{ $project->description }}</p>
+                <span>{{$project->type ? $project->type->name : 'Uncategorized'}}</span>
                 <p>Tecnologie usate: {{ $project->technologies }}</p>
                 <p>Repo GitHub:<a href="{{ $project->url }}">{{ $project->url }}</a></p>
                 <div>
