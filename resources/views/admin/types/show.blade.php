@@ -1,17 +1,16 @@
 @extends('layouts.app')
 @section('content')
-<section class="container mt-5">
-    <h1>{{ $type->name }}</h1>
-    <ul class="mt-5">
-        @foreach ($type->projects as $project)
-            <li class="list-unstyled border-bottom pb-2 d-flex align-items-center ">
-                <div id="circle-image">
-                    <a href="{{ route('admin.projects.show', $project->slug) }}">
-                        <img src="{{ asset('storage/' . $project->image) }}" alt="{{ $project->title }}">
-                    </a>
-                </div>
-                <a href="{{ route('admin.projects.show', $project->slug) }}" class="mx-3">{{ $project->title }}</a>
-            </li>
-        @endforeach
-    </ul>
-    @endsection
+    <section class="container">
+        <h1>{{$type->name}}</h1>
+        <h3>Post List</h3>
+        <ul class="list-group list-group-flush">
+            @forelse ($type->projects as $project)
+                <li class="list-group-item">
+                    <a href="{{route('admin.posts.show', $project->slug)}}" class="link-underline link-underline-opacity-0"> {{$project->title}}</a>
+                </li>
+            @empty
+                <li>No posts</li>
+            @endforelse
+        </ul>
+    </section>
+@endsection
