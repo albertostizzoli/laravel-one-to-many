@@ -4,6 +4,11 @@
         <div class="row">
             <div class="col-12">
                 <h2 class="text-center mt-2">I MIEI PROGETTI</h2>
+                @if (!empty(session('message')))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('message') }}
+                    </div>
+                @endif
                 <table class="table mt-5">
                     <thead>
                         <tr class="table-danger">
