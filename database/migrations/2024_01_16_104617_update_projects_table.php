@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::table('projects', function (Blueprint $table) {
             $table->string('image')->after('url');
+            $table->foreign('user_id')
+            ->references('id')
+            ->on('users')->cascadeOnDelete();
         });
     }
 
@@ -23,6 +26,7 @@ return new class extends Migration
     {
         Schema::table('projects', function (Blueprint $table) {
             $table->dropColumn('image');
+            $table->dropForeign('projects_user_id_foreign');
         });
     }
 };
